@@ -1,0 +1,25 @@
+name: Bug report
+description: Something does not work as expected
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, what happened instead?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: Shown in the ⚙ settings panel (e.g. 1.0.0).
+  - type: dropdown
+    id: display
+    attributes:
+      label: SULFUR display mode
+      options: [Borderless / Fullscreen Window, Windowed, Exclusive fullscreen, Not sure]
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else? (screenshots, the item name, the Windows version…)

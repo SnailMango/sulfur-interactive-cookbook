@@ -1,0 +1,21 @@
+name: Translation / new language
+description: Ask for a new language or offer to translate one
+labels: [translation]
+body:
+  - type: input
+    id: lang
+    attributes:
+      label: Language
+      placeholder: "e.g. Spanish (es)"
+    validations:
+      required: true
+  - type: dropdown
+    id: help
+    attributes:
+      label: Can you help translate?
+      options: ["Yes, I can translate the interface", "Yes, I can also translate item names / effects", "No, I only need it", "Not sure yet"]
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: What language does your copy of SULFUR use? Do you know the in-game item names?
