@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>SULFUR Interactive Cookbook</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--tile:130px;color-scheme:dark;--bg:#14161a;--pn:#1d2026;--ln:#2b303a;--tx:#e6e8ec;--dim:#8b93a1;--ok:#5fd38a;--ms:#ef6b6b;--ac:#f0b54a}
+*{box-sizing:border-box}
+body{margin:0;padding:12px;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,sans-serif}
+input{width:100%;padding:10px 12px;font-size:16px;background:var(--pn);color:var(--tx);border:1px solid var(--ln);border-radius:8px}
+input:focus{outline:2px solid var(--ac);border-color:transparent}
+button{font:inherit;color:var(--tx);background:var(--pn);border:1px solid var(--ln);border-radius:6px;padding:4px 10px;cursor:pointer}
+button:hover:not(:disabled){border-color:var(--ac)} button:disabled{opacity:.5;cursor:default}
+header{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+header input{flex:1} #st{color:var(--dim);font-size:13px;max-width:320px}
+main{display:grid;grid-template-columns:minmax(300px,1fr) minmax(360px,44%);gap:16px;align-items:start}
+@media(max-width:760px){main{grid-template-columns:1fr}}
+#left{position:sticky;top:0;max-height:calc(100vh - 70px);overflow:auto;padding-right:6px}
+#grid,#ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--tile),1fr));gap:8px}
+#lh{display:flex;align-items:center;gap:10px;margin-bottom:8px} #lh h3{margin:0;flex:1}
+#sz{width:120px;padding:0} details{margin-top:14px} summary{cursor:pointer;color:var(--dim);margin-bottom:8px}
+.tile{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;padding:10px 4px 8px;background:var(--pn);border:1px solid var(--ln);border-radius:8px;cursor:pointer}
+.tile:hover{border-color:var(--ac)} .tile.on{border-color:var(--ac);background:#2a2619}
+.tile img{width:calc(var(--tile)*.58);height:calc(var(--tile)*.58);object-fit:contain}
+.tile input{padding:4px 6px;font-size:13px;text-align:center}
+.tile .n{font-size:14px;font-weight:600;line-height:1.15;word-break:break-word} .tile .e{font-size:12px;color:var(--dim);line-height:1.1}
+.tile .cnt{position:absolute;top:3px;left:5px;font-weight:700;color:var(--ac);font-size:13px}
+.tile .ed{position:absolute;top:2px;right:3px;font-size:15px;color:var(--dim);padding:0 3px;border-radius:4px}
+.tile .ed:hover{color:var(--ac);background:var(--bg)}
+#sug,#chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
+.chip{display:flex;align-items:center;gap:6px;background:var(--pn);border:1px solid var(--ac);border-radius:999px;padding:3px 6px 3px 8px}
+.chip button{padding:0 7px;border-radius:999px}
+.ic{width:28px;height:28px;object-fit:contain;vertical-align:middle;flex:none}
+h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ac);margin:16px 0 6px}
+h3{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ac);margin:0 0 6px}
+.recs{display:flex;flex-wrap:wrap;gap:6px}
+.rec{flex:1 1 auto;background:var(--pn);border:1px solid var(--ln);border-radius:8px;padding:8px 12px}
+.line{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.it{display:inline-flex;align-items:center;gap:4px} .it small,.line small{color:var(--dim)}
+.ok{color:var(--ok)} .ms{color:var(--ms)} .why{color:var(--dim);font-size:13px;margin-top:4px}
+.hint{color:var(--dim);margin:8px 0}
+#tip{position:fixed;z-index:50;max-width:340px;pointer-events:none;display:none;background:#0e1013;border:1px solid var(--ac);border-radius:10px;padding:10px 12px;box-shadow:0 6px 24px #000a}
+#sheet{position:sticky;top:0;z-index:5;margin-bottom:10px;background:var(--bg)}
+#sheet .card{border:1px solid var(--ac);position:relative}
+.card{background:var(--pn);border-radius:10px;padding:10px 12px}
+#tip .card{background:none;padding:0}
+.ch{display:flex;align-items:center;gap:10px;margin-bottom:6px} .ch .ic{width:40px;height:40px}
+.card .e{color:var(--dim);font-size:12px}
+.eff{padding:1px 0;font-weight:600} .eff.h{color:var(--ok)} .eff.c{color:#6fc3ff} .eff.b{color:var(--ac)} .eff.x{color:var(--ms)}
+.fl{color:var(--dim);font-style:italic;margin-top:4px}
+.hps{display:inline-block;margin-top:4px;padding:1px 8px;border-radius:999px;border:1px solid var(--ok);color:var(--ok);font-size:12px}
+.xbtn{position:absolute;top:6px;right:8px}
+.pin{cursor:pointer} .pin:hover b,.pin:hover{text-decoration:underline dotted}
+.tile .tools{position:absolute;top:2px;right:3px;display:flex;gap:2px}
+.tile .tools span{font-size:15px;color:var(--dim);padding:0 3px;border-radius:4px}
+.tile .tools span:hover{color:var(--ac);background:var(--bg)}
+input[type=checkbox]{width:auto;vertical-align:middle} #hovl{font-size:13px;color:var(--dim);white-space:nowrap}
+#szr{padding:2px 8px}
+
+#lang{display:flex;gap:0} #lang button{border-radius:0;padding:4px 12px} #lang button:first-child{border-radius:6px 0 0 6px} #lang button:last-child{border-radius:0 6px 6px 0}
+#lang button.act{border-color:var(--ac);color:var(--ac);font-weight:700}
+header{flex-wrap:wrap} header input#q{min-width:220px}
+.untr{opacity:.75} .tag{font-size:10px;border:1px solid var(--ln);border-radius:4px;padding:0 4px;margin-right:6px;color:var(--dim);font-style:normal}
+.pen{cursor:pointer;color:var(--dim);font-size:13px;font-style:normal;font-weight:400} .pen:hover{color:var(--ac)}
+.card input{padding:4px 8px;font-size:14px}
+[hidden]{display:none!important}
+#trp{position:fixed;right:12px;top:56px;bottom:12px;width:min(540px,94vw);z-index:40;background:var(--pn);border:1px solid var(--ac);border-radius:10px;padding:12px 14px;overflow:auto;box-shadow:0 8px 30px #000b}
+#trp .trow{margin:10px 0} #trp .en{color:var(--dim);font-size:13px;margin-bottom:3px}
+#trp .tt{display:flex;align-items:center;gap:10px} #trp .tt b{flex:1}
+#bar{display:flex;align-items:center;gap:10px;margin:-12px -12px 10px;padding:7px 12px;background:#0e1013;border-bottom:1px solid var(--ln);-webkit-app-region:drag;user-select:none}
+#bar button,#bar input,#bar label,#bar a{-webkit-app-region:no-drag}
+#bar .ttl{font-weight:700;color:var(--ac)} #bar .sp{flex:1}
+#op{width:110px;padding:0} #bar label{font-size:12px;color:var(--dim);display:flex;align-items:center;gap:6px;white-space:nowrap}
+#appupd{color:var(--ok);font-size:13px}
+body.ov #left{max-height:calc(100vh - 128px)}
+#setp{position:fixed;right:12px;top:52px;bottom:12px;width:min(480px,94vw);z-index:45;background:var(--pn);border:1px solid var(--ac);border-radius:10px;padding:12px 14px;overflow:auto;box-shadow:0 8px 30px #000b}
+#setp .row{margin:14px 0} #setp label.cb{display:flex;gap:8px;align-items:center;color:var(--tx);cursor:pointer}
+#setp .tt{display:flex;align-items:center;gap:10px} #setp .tt b{flex:1} #setp .kb{display:flex;gap:8px} #setp .kb input{flex:1}
+@media(max-width:760px){#left{position:static;max-height:42vh}}
+</style></head><body>
+<div id="bar" hidden>
+  <span class="ttl">SULFUR Interactive Cookbook</span><span class="hint" id="hk" style="margin:0"></span>
+  <span id="appupd" hidden></span><span class="sp"></span>
+  <label><span id="opt"></span><input id="op" type="range" min="30" max="100" value="92"></label>
+  <button id="setb">⚙</button><button id="hideb">✕</button>
+</div>
+<header>
+  <input id="q" autocomplete="off" autofocus>
+  <button id="upd"></button>
+  <button id="trb" hidden></button>
+  <label id="hovl"><input type="checkbox" id="hov" checked> <span id="hovt"></span></label>
+  <label id="bothl"><input type="checkbox" id="both"> <span id="botht"></span></label>
+  <span id="st"></span>
+  <div id="lang"><button data-l="en">EN</button><button data-l="it">IT</button></div>
+</header>
+<main>
+  <section id="left">
+    <div id="lh"><h3 id="ti"></h3><span class="hint" id="edh" style="margin:0;font-size:12px"></span>
+    <input id="sz" type="range" min="90" max="200" value="130"><button id="szr">↺</button></div>
+    <div id="grid"></div>
+  </section>
+  <section id="right">
+    <div id="sug"></div>
+    <div id="chips"></div>
+    <div id="sheet"></div>
+    <div id="res"></div>
+  </section>
+</main>
+<div id="tip"></div>
+<div id="trp" hidden></div>
+<div id="setp" hidden></div>
+<script>
+let D={recipes:[],cats:{},items:[],ingredients:[],groups:[],gm:{},icons:{},aliases:{},info:{},texts:{},glossary:{}};
+let pinned=null, editing=null, editLine=null, tipFor=null, lang='en', both=false, updating=false;
+const inv=new Map(), $=id=>document.getElementById(id);
+const S={
+ it:{ph:'Cerca un ingrediente (italiano o inglese) · Invio = aggiungi · Esc = cancella · / = torna qui',upd:'⟳ Aggiorna dalla wiki',updT:'Riscarica ricette, statistiche, ingredienti e icone dalla wiki',hov:'Info al passaggio',both:"Mostra anche l'altra lingua",ingr:'Ingredienti',edH:'✎ = nome italiano',edT:'Imposta il nome italiano',infT:'Fissa la scheda con le statistiche',sz:'Dimensione icone',szr:'Torna alla dimensione originale',grp:'Gruppi generici (Any …)',how:'Come si prepara «{q}»',now:'Puoi cucinare ora',one:'Ti manca un solo ingrediente',oth:'Altre ricette con i tuoi ingredienti',m1:'Manca: ',mN:'Mancano: ',clear:'Svuota tutto',noMatch:'Nessun ingrediente corrisponde.',noRec:'Nessuna ricetta usa questi ingredienti.',empty:'Nessun dato: sto scaricando ricette e icone dalla wiki...',start:'Clicca un ingrediente a sinistra (o scrivilo in alto e premi Invio) per aggiungerlo al tuo inventario e vedere cosa puoi cucinare. Con più ingredienti vedi le combinazioni.',unk:"Non riconosco «{q}». Associalo all'ingrediente (nome inglese): ",enPh:'nome inglese…',itPh:'Nome italiano…',used:'Nome già usato per {o}',usedPh:'Già usato: {o}',grpL:'Gruppo generico: ',noMem:'membri non noti',noEff:'Nessun effetto particolare registrato sulla wiki.',noData:'Statistiche non ancora scaricate: premi «Aggiorna dalla wiki».',hps:'≈ {v} vita al secondo',data:'Dati del ',close:'Chiudi la scheda',edTxt:'Traduci o correggi questa riga',txtPh:'Testo in italiano…',orig:'Testo originale (inglese)',trBtn:'Traduzioni ({n})',trTitle:'Traduzioni',trHint:'Scrivi la traduzione e premi Invio: viene salvata. Effetti in it_texts.json, nomi in it_en.json; per correggere molte righe insieme modifica it_glossary.json.',trAll:'Tutto tradotto!',trPh:'Traduzione italiana…',trNames:'Nomi senza traduzione ({n})',trEff:'Effetti da rivedere ({n})',trAuto:'⚡ Traduci automaticamente i nomi',trAutoH:'Usa il servizio gratuito MyMemory: viene inviato solo il nome inglese dell\'oggetto e ha un limite giornaliero. Sono bozze: correggile con la matita ✎.',trMore:'…e altri {n} (usa la traduzione automatica o la matita ✎ sul piatto)',noPage:'Pagina non ancora scaricata: premi «Aggiorna dalla wiki».',wiki:'↗ Apri sulla wiki',st_dl:'Scarico i dati aggiornati…',st_updated:'Dati aggiornati: {n} ricette ({date}).',st_uptodate:'Hai già i dati più recenti ({date}).',st_dlfail:'Impossibile scaricare i dati: {err}. Riprova più tardi.',st_trprog:'Traduco i nomi… {k}/{n}',st_trquota:'Limite giornaliero del servizio raggiunto: {added} nomi tradotti. Riprova domani o completa a mano.',st_trdown:'Il servizio di traduzione non risponde: controlla la connessione e riprova più tardi.',st_trdone:'Traduzione automatica completata: {added} nomi aggiunti (controllali con la matita ✎).',st_trerr:'Errore durante la traduzione: {err}',ovHk:'Mostra/nascondi',ovOp:'Trasparenza',ovSetT:'Impostazioni overlay',ovHide:'Nascondi (la scorciatoia lo riapre)',ovHkL:'Scorciatoia per mostrare/nascondere',ovChange:'Cambia',ovPress:'Premi la nuova scorciatoia… (Esc annulla)',ovBad:'Scorciatoia non disponibile (già usata da un altro programma?)',ovFocus:'Quando si apre, prende il focus (per scrivere subito)',ovStartH:'Avvia nascosto',ovAutoD:'Aggiorna i dati delle ricette all\'avvio',ovLogin:'Avvia con Windows',ovVer:'Versione',ovQuit:'Esci dall\'app',ovDown:'Aggiornamento in download…',ovReady:'Aggiornamento pronto',ovInstall:'Riavvia e installa'},
+ en:{ph:'Search an ingredient (Italian or English) · Enter = add · Esc = clear · / = focus',upd:'⟳ Update from wiki',updT:'Re-download recipes, stats, ingredients and icons from the wiki',hov:'Info on hover',both:'Also show the other language',ingr:'Ingredients',edH:'✎ = Italian name',edT:'Set the Italian name',infT:'Pin the stats card',sz:'Icon size',szr:'Reset to original size',grp:'Generic groups (Any …)',how:'How to make “{q}”',now:'You can cook now',one:'One ingredient missing',oth:'Other recipes using your ingredients',m1:'Missing: ',mN:'Missing: ',clear:'Clear all',noMatch:'No ingredient matches.',noRec:'No recipe uses these ingredients.',empty:'No data: downloading recipes and icons from the wiki...',start:'Click an ingredient on the left (or type it above and press Enter) to add it to your inventory and see what you can cook. With more ingredients you see the combinations.',unk:"I don't recognize “{q}”. Link it to an ingredient (English name): ",enPh:'English name…',itPh:'Italian name…',used:'Name already used for {o}',usedPh:'Already used: {o}',grpL:'Generic group: ',noMem:'unknown members',noEff:'No special effect listed on the wiki.',noData:'Stats not downloaded yet: press “Update from wiki”.',hps:'≈ {v} health per second',data:'Data from ',close:'Close card',edTxt:'',txtPh:'',orig:'',trBtn:'Translations ({n})',trTitle:'Translations',trHint:'',trAll:'All done!',trPh:'',trNames:'',trEff:'',trAuto:'',trAutoH:'',trMore:'',noPage:'Page not downloaded yet: press “Update from wiki”.',wiki:'↗ Open on the wiki',st_dl:'Downloading the latest data…',st_updated:'Data updated: {n} recipes ({date}).',st_uptodate:'You already have the latest data ({date}).',st_dlfail:'Could not download the data: {err}. Try again later.',st_trprog:'Translating names… {k}/{n}',st_trquota:'Daily limit of the translation service reached: {added} names translated. Try again tomorrow or finish by hand.',st_trdown:'The translation service is not responding: check your connection and try again later.',st_trdone:'Automatic translation complete: {added} names added (review them with the pencil ✎).',st_trerr:'Translation error: {err}',ovHk:'Show/hide',ovOp:'Opacity',ovSetT:'Overlay settings',ovHide:'Hide (the hotkey shows it again)',ovHkL:'Show/hide hotkey',ovChange:'Change',ovPress:'Press the new hotkey… (Esc cancels)',ovBad:'Hotkey not available (used by another program?)',ovFocus:'Take focus when shown (to type right away)',ovStartH:'Start hidden',ovAutoD:'Update recipe data at startup',ovLogin:'Start with Windows',ovVer:'Version',ovQuit:'Quit the app',ovDown:'Downloading update…',ovReady:'Update ready',ovInstall:'Restart and install'}
+};
+const t=(k,o)=>{ let s=(S[lang]&&S[lang][k])||S.it[k]||k; if(o) for(const x in o) s=s.replace('{'+x+'}',o[x]); return s; };
+const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+let aliasN=new Map(), rev={}, itemN=[];
+function index(){
+  aliasN=new Map(Object.entries(D.aliases).map(([k,v])=>[norm(k),v]));
+  rev={}; for(const [k,v] of Object.entries(D.aliases)) if(!rev[v]) rev[v]=k;
+  itemN=D.items.map(n=>[n,norm(n)]);
+}
+function el(tag,cls,txt){const e=document.createElement(tag); if(cls)e.className=cls; if(txt!==undefined)e.textContent=txt; return e}
+
+/* ---- glossario / traduzione effetti ---- */
+const g=(k,v)=>((D.glossary||{})[k]||{})[String(v).toLowerCase().trim()];
+function trEffect(x){
+  const s=x.trim().replace(/\.+$/,''); let miss=false, m;
+  const GL=D.glossary||{};
+  const lk=(k,v)=>((GL[k]||{})[String(v).toLowerCase().trim()]);
+  const unit=u=>/^min/i.test(u)?['minuto','minuti']:['secondo','secondi'];
+  const dur=(n,u)=>n?' per '+n+' '+unit(u)[Number(n)===1?0:1]:'';
+  const status=v=>{ const r=lk('status',v); if(r===undefined){ miss=true; return v.trim(); } return r; };
+  const stat=p=>{
+    p=p.trim(); let r=lk('stat',p); if(r!==undefined) return r;
+    const cs=Object.keys(GL.cond||{}).sort((a,b)=>b.length-a.length);
+    for(const c of cs){
+      if(p.toLowerCase().endsWith(' '+c)){ const b=lk('stat',p.slice(0,p.length-c.length-1)); if(b!==undefined) return b+' '+GL.cond[c]; }
+    }
+    miss=true; return p;
+  };
+  const statOrRes=p=>{
+    const rm=p.match(/^(.+?) resistance$/i);
+    if(rm){ const r=lk('resist',rm[1]); if(r!==undefined) return 'Resistenza '+r; miss=true; return 'Resistenza a '+rm[1]; }
+    return stat(p);
+  };
+  const out=r=>({t:cap(r),ok:!miss});
+  const NUM='(\\d+(?:\\.\\d+)?)', SIG='([+-]?\\d+(?:\\.\\d+)?%?)', DUR='(?: for '+NUM+' (seconds?|minutes?))?';
+  if(/^drag (?:it )?onto an? item to repair it$/i.test(s)) return out('trascina su un oggetto per ripararlo');
+  if(m=s.match(new RegExp('^restores? '+NUM+' durability$','i'))) return out('ripristina '+m[1]+' durabilità');
+  if(m=s.match(new RegExp('^(?:gives|restores?|heals?) '+NUM+' health over '+NUM+' (seconds?|minutes?)$','i'))) return out('cura '+m[1]+' vita in '+m[2]+' '+unit(m[3])[Number(m[2])===1?0:1]);
+  if(m=s.match(new RegExp('^(?:gives|restores?|heals?) '+NUM+' health$','i'))) return out('cura '+m[1]+' vita');
+  if(m=s.match(/^(?:removes|cures) (.+)$/i)) return out('rimuove: '+status(m[1]));
+  if(m=s.match(new RegExp('^makes you (.+?)'+DUR+'$','i'))) return out('ti rende '+status(m[1])+dur(m[2],m[3]));
+  if(m=s.match(new RegExp('^immune to (.+?)'+DUR+'$','i'))) return out('immune a: '+status(m[1])+dur(m[2],m[3]));
+  if(m=s.match(new RegExp('^gives '+SIG+' (.+?)'+DUR+'$','i'))){
+    const v=/^[+-]/.test(m[1])?m[1]:'+'+m[1]; const r=statOrRes(m[2]);
+    return out(r+' '+v+dur(m[3],m[4]));
+  }
+  if(m=s.match(new RegExp('^(increases?|raises?|decreases?|reduces?|lowers?) (.+?) by '+SIG+DUR+'$','i'))){
+    const up=/^(incr|rais)/i.test(m[1]); const r=statOrRes(m[2]);
+    return out((up?'aumenta ':'riduce ')+r+' di '+m[3].replace(/^[+-]/,'')+dur(m[4],m[5]));
+  }
+  if(m=s.match(new RegExp('^restores? '+NUM+' (.+)$','i'))) return out('ripristina '+m[1]+' '+stat(m[2]));
+  return null;
+}
+function itName(n){
+  if(rev[n]) return cap(rev[n]);
+  const m=n.match(/^Any (.+)$/i); if(m){ const x=g('group',m[1]); if(x) return 'Qualsiasi '+x; }
+  return null;
+}
+const nm=n=>lang==='it'?(itName(n)||n):n;
+const oth=n=>lang==='it'?(itName(n)?n:null):null;
+const label=n=>nm(n)+(both&&oth(n)?' ('+oth(n)+')':'');
+const isGroup=n=>(n in (D.gm||{}))||n.startsWith('Any ');
+const members=n=>(D.gm||{})[n]||[];
+const qtxt=x=>x.qr?' ×'+x.qr:(x.q>1?' ×'+x.q:'');
+function iconFile(n){
+  if(D.icons[n]) return D.icons[n];
+  if(isGroup(n)) for(const m of members(n)) if(D.icons[m]) return D.icons[m];
+  return null;
+}
+function iconEl(n,cat,sz){
+  const f=iconFile(n), i=document.createElement('img'); i.className='ic';
+  if(f) i.src='/icons/'+encodeURIComponent(f); else i.style.visibility='hidden';
+  if(sz){i.style.width=i.style.height=sz+'px'}
+  return i;
+}
+
+/* ---- schede statistiche ---- */
+function effCls(x){
+  if(/^removes|^cures/i.test(x)) return 'c';
+  if(/^makes you/i.test(x)) return 'x';
+  if(/health|heal|hp/i.test(x) && !/lose|damage|-\d/i.test(x)) return 'h';
+  if(/poison|damage|decrease|slow|drunk|bleed|burn|-\d/i.test(x) && !/resist/i.test(x)) return 'x';
+  return 'b';
+}
+function hpsOf(effs){
+  for(const x of effs){ const m=x.match(/(\d+(?:\.\d+)?)\s*health over\s*(\d+(?:\.\d+)?)\s*second/i);
+    if(m) return (m[1]/m[2]); }
+  return null;
+}
+async function saveText(en,it){
+  if(it.trim()) D.texts[en]=it.trim(); else delete D.texts[en];
+  await fetch('/api/text',{method:'POST',body:JSON.stringify({en,it})});
+}
+function textLine(x,cls,editable,flavor){
+  const w=el('div',cls);
+  const saved=(D.texts||{})[x], r=(lang==='it'&&!flavor&&!saved)?trEffect(x):null;
+  const tr=lang==='it'?(saved||(r&&r.t)||null):null;
+  if(editable && lang==='it' && editLine===x){
+    const i=document.createElement('input'); i.value=tr||''; i.placeholder=t('txtPh');
+    i.onkeydown=e=>{ e.stopPropagation();
+      if(e.key==='Enter'){ editLine=null; saveText(x,i.value).then(()=>{renderSheet();updateTrBtn();}); renderSheet(); }
+      if(e.key==='Escape'){ editLine=null; renderSheet(); } };
+    w.append(i); setTimeout(()=>i.focus(),0); return w;
+  }
+  if(lang==='it' && (!tr || (r && !r.ok))){ w.classList.add('untr'); w.title=x; }
+  if(lang==='it' && !tr) w.append(el('span','tag','EN'));
+  w.append(lang==='it'?(tr||x):x);
+  if(editable && lang==='it'){ const b=el('span','pen','✎'); b.title=t('edTxt'); b.onclick=()=>{editLine=x;renderSheet()}; w.append(' ',b); }
+  return w;
+}
+let editName=null;
+function infoCard(n,editable){
+  const d=el('div','card'), inf=(D.info||{})[n]||{}, effs=inf.e||[];
+  const h=el('div','ch'); h.append(iconEl(n,null,40)); const tt=el('div');
+  if(editable && editName===n){
+    const i=document.createElement('input'); i.value=rev[n]||''; i.placeholder=t('itPh');
+    i.onkeydown=e=>{ e.stopPropagation();
+      if(e.key==='Enter'){
+        const o=aliasN.get(norm(i.value));
+        if(o && o!==n){ i.style.outline='2px solid var(--ms)'; i.value=''; i.placeholder=t('usedPh',{o:nm(o)}); return; }
+        editName=null; saveAlias(i.value,n,true); }
+      if(e.key==='Escape'){ editName=null; renderSheet(); } };
+    tt.append(i); setTimeout(()=>{i.focus();i.select()},0);
+  } else {
+    tt.append(el('b','',nm(n)));
+    if(editable && lang==='it'){ const pen=el('span','pen','✎'); pen.title=t('edT'); pen.onclick=()=>{ editName=n; renderSheet(); }; tt.append(' ',pen); }
+  }
+  if(both&&oth(n)) tt.append(el('div','e',oth(n)));
+  if(editable && lang==='it' && itName(n)) tt.append(el('div','e',n));
+  h.append(tt); d.append(h);
+  if(isGroup(n)){
+    d.append(el('div','e',t('grpL')+(members(n).map(nm).join(', ')||t('noMem'))));
+  } else if(effs.length){
+    effs.forEach(x=>d.append(textLine(x,'eff '+effCls(x),editable,false)));
+    const v=hpsOf(effs); if(v!==null) d.append(el('div','hps',t('hps',{v:Math.round(v*10)/10})));
+  } else {
+    const got=(D.fetched||[]).includes(n);
+    d.append(el('div','hint',!Object.keys(D.info||{}).length?t('noData'):(got?t('noEff'):t('noPage'))));
+  }
+  if(inf.f) d.append(textLine(inf.f,'fl',editable,true));
+  if(editable && !isGroup(n)){
+    const a=el('a','pen',t('wiki')); a.href='https://sulfur.wiki.gg/wiki/'+encodeURIComponent(n.replace(/ /g,'_')); a.target='_blank'; a.rel='noopener';
+    const w=el('div'); w.style.marginTop='6px'; w.append(a); d.append(w);
+  }
+  return d;
+}
+function untranslated(){
+  const seen=new Map();
+  for(const k of Object.keys(D.info||{})) for(const x of ((D.info[k]||{}).e||[])){
+    if(seen.has(x)||(D.texts||{})[x]) continue;
+    const r=trEffect(x); if(!r||!r.ok) seen.set(x,r?r.t:'');
+  }
+  return seen;
+}
+const missingNames=()=>D.items.filter(n=>!rev[n]).sort((a,b)=>a.localeCompare(b));
+function updateTrBtn(){
+  const n=untranslated().size+missingNames().length, b=$('trb');
+  b.hidden=!(lang==='it'&&n>0); b.textContent=t('trBtn',{n});
+  if(b.hidden) $('trp').hidden=true; else if(!$('trp').hidden) renderTr();
+}
+function renderTr(){
+  const p=$('trp'); p.innerHTML='';
+  const hd=el('div','tt'); hd.append(el('b','',t('trTitle')));
+  const x=el('button','','✕'); x.onclick=()=>{p.hidden=true}; hd.append(x); p.append(hd);
+  p.append(el('div','hint',t('trHint')));
+  const names=missingNames(), effs=[...untranslated()];
+  if(!names.length && !effs.length) p.append(el('div','eff h',t('trAll')));
+  if(names.length){
+    p.append(el('h2','',t('trNames',{n:names.length})));
+    const ab=el('button','task',t('trAuto')); ab.disabled=updating; ab.onclick=()=>runTask('/api/autotranslate'); p.append(ab);
+    p.append(el('div','hint',t('trAutoH')));
+    names.slice(0,50).forEach(n=>{
+      const row=el('div','trow'); row.append(el('div','en',n));
+      const i=document.createElement('input'); i.placeholder=t('itPh');
+      i.onkeydown=e=>{ e.stopPropagation(); if(e.key==='Enter'){
+        const v=i.value.trim(); if(!v) return;
+        const o=aliasN.get(norm(v)); if(o && o!==n){ i.style.outline='2px solid var(--ms)'; i.value=''; i.placeholder=t('usedPh',{o:nm(o)}); return; }
+        saveAlias(v,n,true); } };
+      row.append(i); p.append(row);
+    });
+    if(names.length>50) p.append(el('div','hint',t('trMore',{n:names.length-50})));
+  }
+  if(effs.length){
+    p.append(el('h2','',t('trEff',{n:effs.length})));
+    effs.forEach(([en,guess])=>{
+      const row=el('div','trow'); row.append(el('div','en',en));
+      const i=document.createElement('input'); i.value=guess; i.placeholder=t('trPh');
+      i.onkeydown=e=>{ e.stopPropagation(); if(e.key==='Enter'){ if(!i.value.trim()) return; saveText(en,i.value).then(()=>{updateTrBtn();renderSheet();}); } };
+      row.append(i); p.append(row);
+    });
+  }
+}
+function pin(n){ pinned=(pinned===n?null:n); editLine=null; renderSheet(); }
+function renderSheet(){
+  const s=$('sheet'); s.innerHTML='';
+  if(!pinned) return;
+  const c=infoCard(pinned,true), x=el('button','xbtn','✕'); x.title=t('close'); x.onclick=()=>pin(pinned);
+  c.append(x); s.append(c);
+}
+function hideTip(){ $('tip').style.display='none'; tipFor=null; }
+function placeTip(e){
+  const tp=$('tip'); let x=e.clientX+16, y=e.clientY+16;
+  const w=tp.offsetWidth, h=tp.offsetHeight;
+  if(x+w>innerWidth-8) x=Math.max(8,e.clientX-w-16);
+  if(y+h>innerHeight-8) y=Math.max(8,innerHeight-h-8);
+  tp.style.left=x+'px'; tp.style.top=y+'px';
+}
+document.addEventListener('mouseover',e=>{
+  if(!$('hov').checked) return;
+  const tg=e.target.closest&&e.target.closest('[data-n]');
+  if(!tg){ hideTip(); return; }
+  if(tipFor===tg) return;
+  tipFor=tg; const tip=$('tip'); tip.innerHTML=''; tip.append(infoCard(tg.dataset.n,false)); tip.style.display='block'; placeTip(e);
+});
+document.addEventListener('mousemove',e=>{ if(tipFor) placeTip(e); });
+document.addEventListener('mouseleave',hideTip);
+
+/* ---- ricerca / inventario ---- */
+function matches(n,nq){ return norm(n).includes(nq) || (rev[n]&&norm(rev[n]).includes(nq)) || (itName(n)&&norm(itName(n)).includes(nq)); }
+function suggest(q){
+  const nq=norm(q); if(!nq) return [];
+  const out=[], add=n=>{if(!out.includes(n))out.push(n)};
+  if(aliasN.has(nq)) add(aliasN.get(nq));
+  for(const [k,v] of aliasN) if(k.startsWith(nq)&&D.items.includes(v)) add(v);
+  for(const [n,m] of itemN) if(m.startsWith(nq)) add(n);
+  for(const [k,v] of aliasN) if(k.includes(nq)&&D.items.includes(v)) add(v);
+  for(const [n,m] of itemN) if(m.includes(nq)) add(n);
+  return out.slice(0,10);
+}
+async function saveAlias(it,en,replace){
+  if(replace) for(const k of Object.keys(D.aliases)) if(D.aliases[k]===en) delete D.aliases[k];
+  if(it.trim()) D.aliases[it.trim()]=en;
+  index(); render();
+  await fetch('/api/alias',{method:'POST',body:JSON.stringify({it,en,replace:!!replace})});
+}
+function addItem(name,typed){
+  const nt=norm(typed||'');
+  if(nt && !matches(name,nt) && aliasN.get(nt)!==name) saveAlias(typed.trim(),name,false);
+  inv.set(name,(inv.get(name)||0)+1);
+  $('q').value=''; $('sug').innerHTML=''; render(); $('q').focus();
+}
+function have(i){
+  if(isGroup(i.n)) return members(i.n).reduce((s,n)=>s+(inv.get(n)||0),0)+(inv.get(i.n)||0);
+  return inv.get(i.n)||0;
+}
+function nameBits(n,bold){
+  const f=bold?el('b','',nm(n)):document.createTextNode(nm(n)), a=[f];
+  if(both&&oth(n)) a.push(el('small','','('+oth(n)+')'));
+  return a;
+}
+function ingEl(i){
+  const s=el('span','it pin '+(inv.size?(have(i)>=i.q?'ok':'ms'):'')); s.dataset.n=i.n; s.onclick=()=>pin(i.n);
+  s.append(iconEl(i.n,null), nm(i.n)+qtxt(i));
+  if(both&&oth(i.n)) s.append(el('small','','('+oth(i.n)+')'));
+  return s;
+}
+function outEl(o){
+  const s=el('span','it pin'); s.dataset.n=o.n; s.onclick=()=>pin(o.n);
+  s.append(iconEl(o.n,null), el('b','',nm(o.n)+qtxt(o)));
+  if(both&&oth(o.n)) s.append(el('small','','('+oth(o.n)+')'));
+  return s;
+}
+function recEl(r,note){
+  const d=el('div','rec'), l=el('div','line');
+  r.in.forEach((i,k)=>{ if(k) l.append('+'); l.append(ingEl(i)); });
+  l.append('→');
+  r.out.forEach(o=>l.append(outEl(o)));
+  d.append(l); if(note) d.append(el('div','why',note)); return d;
+}
+function section(title,recs,note){
+  if(!recs.length) return;
+  $('res').append(el('h2','',title+' ('+recs.length+')'));
+  const w=el('div','recs');
+  recs.slice(0,60).forEach(r=>w.append(recEl(r,note&&note(r))));
+  $('res').append(w);
+}
+function tileEl(n){
+  const tl=el('div','tile'+(inv.has(n)?' on':'')); tl.title=label(n);
+  if(inv.has(n)) tl.append(el('span','cnt','×'+inv.get(n)));
+  tl.dataset.n=n;
+  const ed=el('span','','✎'); ed.title=t('edT');
+  ed.onclick=e=>{ e.stopPropagation(); editing=n; hideTip(); renderGrid(); };
+  const inf=el('span','','ⓘ'); inf.title=t('infT');
+  inf.onclick=e=>{ e.stopPropagation(); pin(n); };
+  const tools=el('span','tools'); tools.append(inf); if(lang==='it') tools.append(ed);
+  tl.append(tools, iconEl(n,null));
+  if(editing===n){
+    const i=document.createElement('input'); i.value=rev[n]||''; i.placeholder=t('itPh');
+    i.onclick=e=>e.stopPropagation();
+    i.onkeydown=e=>{
+      e.stopPropagation();
+      if(e.key==='Enter'){
+        const o=aliasN.get(norm(i.value));
+        if(o && o!==n){ i.style.outline='2px solid var(--ms)'; i.title=t('used',{o:nm(o)}); i.value=''; i.placeholder=t('usedPh',{o:nm(o)}); return; }
+        editing=null; saveAlias(i.value,n,true); }
+      if(e.key==='Escape'){ editing=null; renderGrid(); }
+    };
+    tl.append(i, el('span','e',n));
+    setTimeout(()=>{i.focus();i.select()},0);
+  } else {
+    tl.append(el('span','n',nm(n)));
+    if(both&&oth(n)) tl.append(el('span','e',oth(n)));
+    tl.onclick=()=>addItem(n,'');
+  }
+  return tl;
+}
+function renderGrid(){
+  const gr=$('grid'); gr.innerHTML='';
+  const nq=norm($('q').value), by=(a,b)=>norm(nm(a)).localeCompare(norm(nm(b)));
+  const list=D.ingredients.filter(n=>!nq||matches(n,nq)).sort(by);
+  list.forEach(n=>gr.append(tileEl(n)));
+  if(!list.length) gr.append(el('div','hint',t('noMatch')));
+}
+function render(){
+  hideTip();
+  const chips=$('chips'); chips.innerHTML='';
+  for(const [n,c] of inv){
+    const ch=el('div','chip'); const nmEl=el('span','it pin'); nmEl.dataset.n=n; nmEl.onclick=()=>pin(n);
+    nmEl.append(iconEl(n,null,24), nm(n)+' ×'+c); ch.append(nmEl);
+    const m=el('button','','−'), p=el('button','','+'), x=el('button','','✕');
+    m.onclick=()=>{ if(c>1)inv.set(n,c-1); else inv.delete(n); render(); };
+    p.onclick=()=>{ inv.set(n,c+1); render(); };
+    x.onclick=()=>{ inv.delete(n); render(); };
+    ch.append(m,p,x); chips.append(ch);
+  }
+  if(inv.size){ const b=el('button','',t('clear')); b.onclick=()=>{inv.clear();render()}; chips.append(b); }
+  const res=$('res'); res.innerHTML='';
+  const q=$('q').value, nq=norm(q);
+  if(nq){
+    const hits=D.recipes.filter(r=>r.out.some(o=>matches(o.n,nq)));
+    if(hits.length) section(t('how',{q:q}),hits);
+  }
+  if(inv.size){
+    const used=D.recipes.filter(r=>r.in.some(i=>have(i)>0));
+    const miss=r=>r.in.filter(i=>have(i)<i.q);
+    const mn=i=>nm(i.n)+qtxt(i);
+    section(t('now'), used.filter(r=>!miss(r).length));
+    section(t('one'), used.filter(r=>miss(r).length===1), r=>t('m1')+miss(r).map(mn).join(', '));
+    section(t('oth'), used.filter(r=>miss(r).length>1).sort((a,b)=>miss(a).length-miss(b).length), r=>t('mN')+miss(r).map(mn).join(', '));
+    if(!used.length) res.append(el('div','hint',t('noRec')));
+  } else if(!nq){
+    res.append(el('div','hint',D.empty?t('empty'):t('start')));
+  }
+  renderGrid(); renderSheet(); updateTrBtn();
+}
+function onInput(){
+  const q=$('q').value, s=$('sug'); s.innerHTML='';
+  const found=suggest(q);
+  found.forEach(n=>{ const b=el('button',''); b.dataset.n=n;
+    b.append(iconEl(n,null,20),' '+label(n)); b.style.display='inline-flex'; b.style.alignItems='center';
+    b.onclick=()=>addItem(n,q); s.append(b); });
+  if(!found.length && norm(q).length>=2){
+    s.append(el('span','hint',t('unk',{q:q})));
+    const i=document.createElement('input'); i.setAttribute('list','dl'); i.placeholder=t('enPh'); i.style.maxWidth='240px';
+    i.onchange=()=>{ if(D.items.includes(i.value)) addItem(i.value,q); };
+    s.append(i);
+  }
+  render();
+}
+$('q').addEventListener('input',onInput);
+$('q').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){ const f=suggest($('q').value)[0]; if(f) addItem(f,$('q').value); }
+  if(e.key==='Escape'){ if(!$('q').value && window.overlay) window.overlay.hide(); $('q').value=''; onInput(); }
+});
+addEventListener('keydown',e=>{ if(e.key==='/' && document.activeElement.tagName!=='INPUT'){ e.preventDefault(); $('q').focus(); }});
+
+/* ---- lingua, dimensione, aggiornamento ---- */
+let lastStatus=null;
+function setStamp(){
+  const s=lastStatus;
+  $('st').textContent = s ? (s.code?t('st_'+s.code,s.args):(s.msg||'…')) : (D.updated?t('data')+D.updated:'');
+}
+function applyLang(){
+  document.documentElement.lang=lang;
+  $('q').placeholder=t('ph'); $('upd').textContent=t('upd'); $('upd').title=t('updT');
+  $('hovt').textContent=t('hov'); $('botht').textContent=t('both');
+  $('ti').textContent=t('ingr'); $('edh').textContent=lang==='it'?t('edH'):''; $('bothl').hidden=lang!=='it';
+  if(window.overlay&&window.overlay.setLang) window.overlay.setLang(lang);
+  $('sz').title=t('sz'); $('szr').title=t('szr');
+  document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('act',b.dataset.l===lang));
+  $('opt').textContent=t('ovOp'); $('setb').title=t('ovSetT'); $('hideb').title=t('ovHide');
+  if(window.overlay&&ovSet) ovApply(ovSet);
+  setStamp(); onInput();
+}
+document.querySelectorAll('#lang button').forEach(b=>b.onclick=()=>{
+  lang=b.dataset.l; try{localStorage.setItem('lang',lang)}catch(e){} applyLang(); });
+$('both').onchange=()=>{ both=$('both').checked; try{localStorage.setItem('both',both?'1':'0')}catch(e){} render(); };
+function setSize(v){ document.documentElement.style.setProperty('--tile',v+'px'); }
+try{
+  const v=localStorage.getItem('tile'); if(v){ $('sz').value=v; setSize(v); }
+  if(localStorage.getItem('hov')==='0') $('hov').checked=false;
+  const sl=localStorage.getItem('lang'); if(sl==='it'||sl==='en') lang=sl;
+  if(localStorage.getItem('both')==='1'){ both=true; $('both').checked=true; }
+}catch(e){}
+$('trb').onclick=()=>{ $('trp').hidden=!$('trp').hidden; if(!$('trp').hidden) renderTr(); };
+$('szr').onclick=()=>{ $('sz').value=130; setSize(130); try{localStorage.removeItem('tile')}catch(e){} };
+$('hov').onchange=()=>{ hideTip(); try{localStorage.setItem('hov',$('hov').checked?'1':'0')}catch(e){} };
+$('sz').oninput=()=>{ setSize($('sz').value); try{localStorage.setItem('tile',$('sz').value)}catch(e){} };
+async function load(){
+  D=await (await fetch('/api/data')).json(); index();
+  document.getElementById('dl')?.remove();
+  const dl=document.createElement('datalist'); dl.id='dl';
+  D.items.forEach(n=>{const o=document.createElement('option'); o.value=n; dl.append(o)});
+  document.body.append(dl); setStamp(); render();
+}
+async function pollUpdate(){
+  updating=true; $('upd').disabled=true; document.querySelectorAll('.task').forEach(b=>b.disabled=true);
+  while(true){
+    const s=await (await fetch('/api/status')).json();
+    lastStatus=s; setStamp();
+    if(!s.running) break;
+    await new Promise(r=>setTimeout(r,1000));
+  }
+  $('upd').disabled=false; await load(); updating=false; setStamp(); updateTrBtn();
+}
+async function runTask(url){ await fetch(url,{method:'POST'}); pollUpdate(); }
+$('upd').onclick=()=>runTask('/api/update');
+/* ---- overlay (attivo solo dentro l'app, non nel browser) ---- */
+const OV=window.overlay; let ovSet=null, ovCapture=false, ovMsg='';
+const pretty=a=>(a||'').replace('Control','Ctrl');
+function accelFromEvent(e){
+  const k=e.code, mods=[];
+  if(e.ctrlKey) mods.push('Control'); if(e.altKey) mods.push('Alt'); if(e.shiftKey) mods.push('Shift'); if(e.metaKey) mods.push('Super');
+  let key=null;
+  if(/^Key[A-Z]$/.test(k)) key=k.slice(3); else if(/^Digit\d$/.test(k)) key=k.slice(5); else if(/^F\d{1,2}$/.test(k)) key=k;
+  else key=({Space:'Space',Tab:'Tab',Enter:'Return',Backspace:'Backspace',Delete:'Delete',Insert:'Insert',Home:'Home',End:'End',PageUp:'PageUp',PageDown:'PageDown',ArrowUp:'Up',ArrowDown:'Down',ArrowLeft:'Left',ArrowRight:'Right',Backquote:'`',Minus:'-',Equal:'=',BracketLeft:'[',BracketRight:']',Semicolon:';',Quote:"'",Comma:',',Period:'.',Slash:'/',Backslash:'\\'})[k]||null;
+  if(!key) return null;
+  if(!mods.length && !/^F\d{1,2}$/.test(key)) return null;
+  return mods.concat(key).join('+');
+}
+function ovApply(s){
+  ovSet=s; $('hk').textContent=t('ovHk')+': '+pretty(s.hotkey)+(s.hotkeyOk?'':' ⚠'); $('op').value=Math.round(s.opacity*100);
+  const u=s.updater; const a=$('appupd');
+  if(u&&u.state){ a.hidden=false; a.textContent=(u.state==='ready'?t('ovReady'):t('ovDown'))+' (v'+u.version+')'; } else a.hidden=true;
+  if(!$('setp').hidden) renderSet();
+}
+function renderSet(){
+  const p=$('setp'); p.innerHTML='';
+  const hd=el('div','tt'); hd.append(el('b','',t('ovSetT'))); const x=el('button','','✕'); x.onclick=()=>{p.hidden=true}; hd.append(x); p.append(hd);
+  const r1=el('div','row'); r1.append(el('div','hint',t('ovHkL')));
+  const kb=el('div','kb'), inp=document.createElement('input'); inp.readOnly=true; inp.value=ovCapture?'':pretty(ovSet.hotkey); inp.placeholder=t('ovPress');
+  const ch=el('button','',t('ovChange')); kb.append(inp,ch); r1.append(kb);
+  if(ovMsg) r1.append(el('div','eff x',ovMsg));
+  ch.onclick=()=>{ ovCapture=true; ovMsg=''; renderSet(); const i=$('setp').querySelector('input'); i.focus(); };
+  if(ovCapture){
+    inp.onkeydown=async e=>{ e.preventDefault(); e.stopPropagation();
+      if(e.code==='Escape'){ ovCapture=false; renderSet(); return; }
+      const a=accelFromEvent(e); if(!a) return;
+      ovCapture=false; const s=await OV.setSettings({hotkey:a});
+      ovMsg=(s.hotkeyOk && s.hotkey===a)?'':t('ovBad'); ovApply(s); };
+  }
+  p.append(r1);
+  [['focusOnShow','ovFocus'],['startHidden','ovStartH'],['autoUpdateData','ovAutoD'],['openAtLogin','ovLogin']].forEach(([k,sk])=>{
+    const row=el('div','row'), lb=el('label','cb'), cb=document.createElement('input'); cb.type='checkbox'; cb.checked=!!ovSet[k];
+    cb.onchange=async()=>{ ovApply(await OV.setSettings({[k]:cb.checked})); };
+    lb.append(cb,el('span','',t(sk))); row.append(lb); p.append(row);
+  });
+  const v=el('div','row hint',t('ovVer')+' '+ovSet.version); p.append(v);
+  if(ovSet.updater&&ovSet.updater.state==='ready'){ const b=el('button','',t('ovInstall')); b.onclick=()=>OV.installUpdate(); p.append(b,' '); }
+  const q=el('button','',t('ovQuit')); q.onclick=()=>OV.quit(); p.append(q);
+}
+if(OV){
+  document.body.classList.add('ov'); $('bar').hidden=false;
+  OV.getSettings().then(ovApply);
+  $('op').oninput=()=>OV.setSettings({opacity:$('op').value/100});
+  $('hideb').onclick=()=>OV.hide();
+  $('setb').onclick=()=>{ $('setp').hidden=!$('setp').hidden; if(!$('setp').hidden) renderSet(); };
+  OV.onShown(()=>{ $('q').focus(); $('q').select(); });
+  OV.onAppUpdate(m=>{ OV.getSettings().then(ovApply); });
+}
+
+(async()=>{
+  await load(); applyLang();
+  const s=await (await fetch('/api/status')).json();
+  if(s.running) pollUpdate();
+  else if(D.empty) $('upd').click();
+})();
+</script></body></html>

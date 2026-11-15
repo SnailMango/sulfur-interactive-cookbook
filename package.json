@@ -1,0 +1,70 @@
+{
+  "name": "sulfur-interactive-cookbook",
+  "version": "1.0.0",
+  "description": "Unofficial in-game overlay for SULFUR: recipes, ingredients, healing and buffs at a glance, toggled with a hotkey.",
+  "main": "src/main.js",
+  "author": "SnailMango",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SnailMango/sulfur-interactive-cookbook.git"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win",
+    "release": "electron-builder --win --publish always",
+    "setup": "node tools/setup.js"
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.9"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "io.github.snailmango.sulfur-interactive-cookbook",
+    "productName": "SULFUR Interactive Cookbook",
+    "artifactName": "SULFUR-Interactive-Cookbook-Setup-${version}.${ext}",
+    "files": [
+      "src/**/*",
+      "renderer/**/*",
+      "assets/**/*",
+      "data/**/*",
+      "config.json",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "deleteAppDataOnUninstall": false
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "SnailMango",
+        "repo": "sulfur-interactive-cookbook",
+        "releaseType": "release"
+      }
+    ]
+  },
+  "homepage": "https://github.com/SnailMango/sulfur-interactive-cookbook#readme",
+  "bugs": {
+    "url": "https://github.com/SnailMango/sulfur-interactive-cookbook/issues"
+  },
+  "keywords": [
+    "sulfur",
+    "overlay",
+    "cookbook",
+    "recipes",
+    "game-tools",
+    "electron",
+    "windows"
+  ]
+}
