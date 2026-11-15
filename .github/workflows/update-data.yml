@@ -1,0 +1,43 @@
+name: Update recipe data
+
+on:
+  schedule:
+    - cron: '0 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download recipes, stats and icon links from the wiki
+        run: python tools/scrape.py
+      - name: Check whether the data really changed
+        id: diff
+        run: |
+          python - <<'PY'
+          import json, os, subprocess
+          new = json.load(open('data/recipes.json', encoding='utf-8'))
+          try:
+              old = json.loads(subprocess.check_output(['git', 'show', 'HEAD:data/recipes.json']))
+          except Exception:
+              old = None
+          strip = lambda d: {k: v for k, v in d.items() if k not in ('version', 'updated')}
+          changed = old is None or strip(old) != strip(new)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write('changed=' + ('true' if changed else 'false') + '\n')
+          PY
+      - name: Commit the new data
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/recipes.json
+          git commit -m "Update recipe data"
+          git push
