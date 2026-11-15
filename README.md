@@ -2,7 +2,7 @@
 
 # SULFUR Interactive Cookbook
 
-**Recipes, ingredients, healing and buffs at a glance — in an overlay you toggle with a hotkey while you play.**
+**Recipes, ingredients, healing and buffs at a glance - in an overlay you toggle with a hotkey while you play.**
 
 [![Latest release](https://img.shields.io/github/v/release/SnailMango/sulfur-interactive-cookbook?label=download&color=f0b54a)](https://github.com/SnailMango/sulfur-interactive-cookbook/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/SnailMango/sulfur-interactive-cookbook/total?color=5fd38a)](https://github.com/SnailMango/sulfur-interactive-cookbook/releases)
@@ -31,13 +31,13 @@ Add screenshots here once you have them (put the files in docs/images/):
 
 ## Features
 
-- 🍳 **Recipe finder** — pick the ingredients you have (the grid shows every ingredient with its icon, alphabetically) and see what you can cook **now**, what is **one ingredient away**, and every other recipe that uses them. "Any …" ingredient groups are handled automatically.
-- ❤️ **Healing and buffs** — hover any dish or ingredient to see how much it heals, how fast, which status effects it removes (Poisoned, Frozen…) and which buffs it gives. Click to pin the card without losing your selected ingredients.
+- 🍳 **Recipe finder** - pick the ingredients you have (the grid shows every ingredient with its icon, alphabetically) and see what you can cook **now**, what is **one ingredient away**, and every other recipe that uses them. "Any …" ingredient groups are handled automatically.
+- ❤️ **Healing and buffs** - hover any dish or ingredient to see how much it heals, how fast, which status effects it removes (Poisoned, Frozen…) and which buffs it gives. Click to pin the card without losing your selected ingredients.
 - 🔎 **Search in English or Italian**, by ingredient or by dish name.
-- 🪟 **Real overlay** — frameless, always-on-top, adjustable opacity, remembers its position and size. Show/hide with a global hotkey (default **Ctrl + Alt + R**, changeable).
-- 🔄 **Always up to date** — recipe data is refreshed from the wiki every week and downloaded by the app automatically; the app itself updates from GitHub Releases.
-- 🌍 **English and Italian** — switch instantly with the **EN | IT** buttons. Item names and descriptions can be customised and translated.
-- 🔒 **Private and light** — no account, no telemetry. The built-in server only listens on `127.0.0.1`.
+- 🪟 **Real overlay** - frameless, always-on-top, adjustable opacity, remembers its position and size. Show/hide with a global hotkey (default **Ctrl + Alt + R**, changeable).
+- 🔄 **Always up to date** - recipe data is refreshed from the wiki every week and downloaded by the app automatically; the app itself updates from GitHub Releases.
+- 🌍 **English and Italian** - switch instantly with the **EN | IT** buttons. Item names and descriptions can be customised and translated.
+- 🔒 **Private and light** - no account, no telemetry. The built-in server only listens on `127.0.0.1`.
 
 ## Download and install
 
@@ -62,25 +62,25 @@ Type an ingredient (or click it in the grid) to add it to your inventory; click 
 
 ### ⚠️ Important: game display mode
 
-The overlay is an always-on-top window, so it **cannot appear over "Exclusive Fullscreen"**. In SULFUR's graphics options choose **Fullscreen Window / Borderless** — on a modern PC the performance difference is negligible. Alternatively, keep the overlay on a second monitor.
+The overlay is an always-on-top window, so it **cannot appear over "Exclusive Fullscreen"**. In SULFUR's graphics options choose **Fullscreen Window / Borderless** - on a modern PC the performance difference is negligible. Alternatively, keep the overlay on a second monitor.
 
 ## Updates
 
-- **Recipe data** — checked at startup (every few hours at most) and with the **⟳ Update** button. GitHub Actions re-reads the wiki every Monday.
-- **The app** — new versions download in the background and install when you quit (or with *Restart and install* in ⚙ Settings).
+- **Recipe data** - checked at startup (every few hours at most) and with the **⟳ Update** button. GitHub Actions re-reads the wiki every Monday.
+- **The app** - new versions download in the background and install when you quit (or with *Restart and install* in ⚙ Settings).
 - Your own names and translations are stored locally and are never overwritten.
 
 ## Languages and translations
 
 The app **starts in English**; switch to Italian (or back) with the **EN | IT** buttons at the top right.
 
-The Italian version exists because the author is Italian and plays SULFUR in Italian — see the [note below](#-italiano). **More languages are welcome!** Open a [translation request](https://github.com/SnailMango/sulfur-interactive-cookbook/issues/new?template=translation_request.yml) or see [CONTRIBUTING.md](CONTRIBUTING.md). Interface texts are easy to translate; item names and effect descriptions ideally come from the game's own localisation, so it helps if you know the in-game names in your language.
+The Italian version exists because the author is Italian and plays SULFUR in Italian - see the [note below](#-italiano). **More languages are welcome!** Open a [translation request](https://github.com/SnailMango/sulfur-interactive-cookbook/issues/new?template=translation_request.yml) or see [CONTRIBUTING.md](CONTRIBUTING.md). Interface texts are easy to translate; item names and effect descriptions ideally come from the game's own localisation, so it helps if you know the in-game names in your language.
 
 ## Where is my data?
 
 Tray icon → **Open data folder** (usually under `%APPDATA%`). It contains `it_en.json` (Italian item names), `it_texts.json` (translated effect lines), `it_glossary.json` (status/stat glossary) and `settings.json`. Icons are downloaded from the wiki the first time they are needed and cached in the `icons` subfolder.
 
-**Network use:** `raw.githubusercontent.com` (recipe data), `sulfur.wiki.gg` (icons), GitHub Releases (app updates) and — only if you press *Translate names automatically* — `api.mymemory.translated.net` (it receives only the English item names).
+**Network use:** `raw.githubusercontent.com` (recipe data), `sulfur.wiki.gg` (icons), GitHub Releases (app updates) and - only if you press *Translate names automatically* - `api.mymemory.translated.net` (it receives only the English item names).
 
 ## Troubleshooting
 
@@ -114,7 +114,7 @@ Icons are **not** redistributed in this repository: each app downloads them from
 ## Credits and licences
 
 - Code: [MIT](LICENSE).
-- Recipe data and descriptions: community wiki <https://sulfur.wiki.gg> — please check the licence shown in the wiki footer (usually CC BY-SA) and keep the attribution.
+- Recipe data and descriptions: community wiki <https://sulfur.wiki.gg> - please check the licence shown in the wiki footer (usually CC BY-SA) and keep the attribution.
 - *SULFUR* names, icons and images: © Perfect Random.
 - Automatic name translation (optional): [MyMemory](https://mymemory.translated.net).
 
@@ -129,13 +129,13 @@ Icons are **not** redistributed in this repository: each app downloads them from
 **SULFUR Interactive Cookbook** è un overlay non ufficiale per **SULFUR** (Perfect Random): ricette, ingredienti, cure e buff sempre a portata di scorciatoia, sopra il gioco, senza alt-tab né browser.
 
 ### Funzioni
-- 🍳 **Cosa posso cucinare** — scegli gli ingredienti che hai (griglia alfabetica con icone) e vedi cosa puoi cucinare subito, cosa ti manca per una ricetta e tutte le altre combinazioni. I gruppi "Any …" sono gestiti da soli.
-- ❤️ **Cure e buff** — passa il mouse su un piatto o un ingrediente per vedere quanta vita cura, in quanto tempo, quali stati rimuove (avvelenato, congelato…) e quali buff dà. Con un clic fissi la scheda senza perdere gli ingredienti scelti.
+- 🍳 **Cosa posso cucinare** - scegli gli ingredienti che hai (griglia alfabetica con icone) e vedi cosa puoi cucinare subito, cosa ti manca per una ricetta e tutte le altre combinazioni. I gruppi "Any …" sono gestiti da soli.
+- ❤️ **Cure e buff** - passa il mouse su un piatto o un ingrediente per vedere quanta vita cura, in quanto tempo, quali stati rimuove (avvelenato, congelato…) e quali buff dà. Con un clic fissi la scheda senza perdere gli ingredienti scelti.
 - 🔎 **Ricerca in italiano e inglese**, per ingrediente o per nome del piatto.
-- 🪟 **Vero overlay** — senza bordi, sempre in primo piano, trasparenza regolabile, ricorda posizione e dimensione. Si mostra/nasconde con una scorciatoia globale (predefinita **Ctrl + Alt + R**, modificabile).
-- 🔄 **Sempre aggiornato** — i dati delle ricette vengono riletti ogni settimana dalla wiki e scaricati dall'app; anche l'app si aggiorna da sola tramite le Release di GitHub.
-- 🌍 **Inglese e italiano** — nomi degli oggetti, descrizioni, cure e buff modificabili e traducibili.
-- 🔒 **Privata e leggera** — nessun account né telemetria; il server interno ascolta solo su `127.0.0.1`.
+- 🪟 **Vero overlay** - senza bordi, sempre in primo piano, trasparenza regolabile, ricorda posizione e dimensione. Si mostra/nasconde con una scorciatoia globale (predefinita **Ctrl + Alt + R**, modificabile).
+- 🔄 **Sempre aggiornato** - i dati delle ricette vengono riletti ogni settimana dalla wiki e scaricati dall'app; anche l'app si aggiorna da sola tramite le Release di GitHub.
+- 🌍 **Inglese e italiano** - nomi degli oggetti, descrizioni, cure e buff modificabili e traducibili.
+- 🔒 **Privata e leggera** - nessun account né telemetria; il server interno ascolta solo su `127.0.0.1`.
 
 ### Installazione
 1. Vai alla [**release più recente**](https://github.com/SnailMango/sulfur-interactive-cookbook/releases/latest).
