@@ -194,7 +194,7 @@ def parse_info(html):
     return d or None
 
 
-QTY = re.compile(r"^(.*?)\s*[x×]\s*(\d+)(?:\s*[-–]\s*(\d+))?\s*$")
+QTY = re.compile(r"^(.*?)\s*[x×]\s*(\d+)(?:\s*[--]\s*(\d+))?\s*$")
 
 
 def split_qty(text):

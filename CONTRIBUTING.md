@@ -10,9 +10,9 @@ Yes, more languages are welcome. What a language needs:
 
 | Part | Where | Effort |
 |---|---|---|
-| Interface texts (buttons, section titles, messages) | the `S` table at the top of the `<script>` in `renderer/index.html` — copy the `en` block and translate it | easy |
+| Interface texts (buttons, section titles, messages) | the `S` table at the top of the `<script>` in `renderer/index.html` - copy the `en` block and translate it | easy |
 | Item names | edited in the app (✎) and stored in `it_en.json`-style files; ideally taken from the game's own localisation files | medium |
-| Effect lines ("Gives 20 health over 10 seconds", "Removes Poisoned"…) | rule-based translator `trEffect` + glossary in `src/defaults.json` | medium — currently written for Italian |
+| Effect lines ("Gives 20 health over 10 seconds", "Removes Poisoned"…) | rule-based translator `trEffect` + glossary in `src/defaults.json` | medium - currently written for Italian |
 
 The translator and glossary are currently Italian-specific. When a second language is requested, they will be moved into a `locales/` folder with one file per language so that adding a language never requires touching the code. **If you want to be that second language, open a [translation request](https://github.com/SnailMango/sulfur-interactive-cookbook/issues/new?template=translation_request.yml)** and we will do it together.
 
