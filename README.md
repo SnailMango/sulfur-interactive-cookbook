@@ -24,10 +24,9 @@
 
 SULFUR has hundreds of ingredients and recipes. Instead of alt-tabbing to the wiki every few minutes to check what you can cook with what you just looted, **SULFUR Interactive Cookbook** puts the whole cookbook one hotkey away, on top of the game.
 
-<!--
-Add screenshots here once you have them (put the files in docs/images/):
-![Overlay](docs/images/overlay.png)
--->
+![Stats card](docs/images/stats-card.png)
+![Overlay and game inventory](docs/images/overlay-inventory.png)
+![Overlay over the game](docs/images/overlay.png)
 
 ## Features
 
