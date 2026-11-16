@@ -1,6 +1,6 @@
 {
   "name": "sulfur-interactive-cookbook",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Unofficial in-game overlay for SULFUR: recipes, ingredients, healing and buffs at a glance, toggled with a hotkey.",
   "main": "src/main.js",
   "author": "SnailMango",

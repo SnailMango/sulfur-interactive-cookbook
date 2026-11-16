@@ -1,6 +1,7 @@
 # Changelog
 
-## 1.0.1 (planned)
+## 1.0.1
+- Italian item names and effect translations are now bundled with the app (about 250 names), so nobody has to translate everything again
 - Many more generic "Any ..." group names translated to Italian, and groups can be translated by hand from the Translations panel
 - Italian names and effect translations can now ship with the app; the user's own edits always take priority
 

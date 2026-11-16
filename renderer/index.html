@@ -152,8 +152,8 @@ function trEffect(x){
   const NUM='(\\d+(?:\\.\\d+)?)', SIG='([+-]?\\d+(?:\\.\\d+)?%?)', DUR='(?: for '+NUM+' (seconds?|minutes?))?';
   if(/^drag (?:it )?onto an? item to repair it$/i.test(s)) return out('trascina su un oggetto per ripararlo');
   if(m=s.match(new RegExp('^restores? '+NUM+' durability$','i'))) return out('ripristina '+m[1]+' durabilità');
-  if(m=s.match(new RegExp('^(?:gives|restores?|heals?) '+NUM+' health over '+NUM+' (seconds?|minutes?)$','i'))) return out('cura '+m[1]+' vita in '+m[2]+' '+unit(m[3])[Number(m[2])===1?0:1]);
-  if(m=s.match(new RegExp('^(?:gives|restores?|heals?) '+NUM+' health$','i'))) return out('cura '+m[1]+' vita');
+  if(m=s.match(new RegExp('^(?:gives|restores?|heals?) '+NUM+' (?:health|heath) over '+NUM+' (seconds?|minutes?)$','i'))) return out('cura '+m[1]+' vita in '+m[2]+' '+unit(m[3])[Number(m[2])===1?0:1]);
+  if(m=s.match(new RegExp('^(?:gives|restores?|heals?) '+NUM+' (?:health|heath)$','i'))) return out('cura '+m[1]+' vita');
   if(m=s.match(/^(?:removes|cures) (.+)$/i)) return out('rimuove: '+status(m[1]));
   if(m=s.match(new RegExp('^makes you (.+?)'+DUR+'$','i'))) return out('ti rende '+status(m[1])+dur(m[2],m[3]));
   if(m=s.match(new RegExp('^immune to (.+?)'+DUR+'$','i'))) return out('immune a: '+status(m[1])+dur(m[2],m[3]));
@@ -195,12 +195,12 @@ function iconEl(n,cat,sz){
 function effCls(x){
   if(/^removes|^cures/i.test(x)) return 'c';
   if(/^makes you/i.test(x)) return 'x';
-  if(/health|heal|hp/i.test(x) && !/lose|damage|-\d/i.test(x)) return 'h';
+  if(/health|heath|heal\b|hp\b/i.test(x) && !/lose|damage|-\d/i.test(x)) return 'h';
   if(/poison|damage|decrease|slow|drunk|bleed|burn|-\d/i.test(x) && !/resist/i.test(x)) return 'x';
   return 'b';
 }
 function hpsOf(effs){
-  for(const x of effs){ const m=x.match(/(\d+(?:\.\d+)?)\s*health over\s*(\d+(?:\.\d+)?)\s*second/i);
+  for(const x of effs){ const m=x.match(/(\d+(?:\.\d+)?)\s*(?:health|heath) over\s*(\d+(?:\.\d+)?)\s*second/i);
     if(m) return (m[1]/m[2]); }
   return null;
 }
