@@ -22,7 +22,7 @@
 
 ## What is it?
 
-SULFUR has hundreds of ingredients and recipes. Instead of alt-tabbing to the wiki every few minutes to check what you can cook with what you just looted, **SULFUR Interactive Cookbook** puts the whole cookbook one hotkey away, on top of the game.
+SULFUR has hundreds of ingredients and recipes. Instead of alt-tabbing to the wiki, or opening the Steam overlay browser with shift+tab, every few minutes to check what you can cook with what you just looted, **SULFUR Interactive Cookbook** puts the whole cookbook one hotkey away, on top of the game.
 
 ![Stats card](docs/images/stats-card.png)
 ![Overlay and game inventory](docs/images/overlay-inventory.png)
@@ -125,7 +125,7 @@ Icons are **not** redistributed in this repository: each app downloads them from
 
 > **Perché c'è anche l'italiano?** Sono italiano e gioco a SULFUR in italiano: ho creato questa utility nella mia lingua, oltre che in inglese, per rendermi la vita più facile durante il gioco. L'app **parte in inglese** (la lingua più usata), ma con i pulsanti **EN | IT** in alto a destra passi all'italiano in qualsiasi momento. Se ti serve un'altra lingua, **possiamo aggiungerla**: leggi [CONTRIBUTING.md](CONTRIBUTING.md) o apri una [richiesta di traduzione](https://github.com/SnailMango/sulfur-interactive-cookbook/issues/new?template=translation_request.yml).
 
-**SULFUR Interactive Cookbook** è un overlay non ufficiale per **SULFUR** (Perfect Random): ricette, ingredienti, cure e buff sempre a portata di scorciatoia, sopra il gioco, senza alt-tab né browser.
+**SULFUR Interactive Cookbook** è un overlay non ufficiale per **SULFUR** (Perfect Random): ricette, ingredienti, cure e buff sempre a portata di scorciatoia, sopra il gioco, senza alt-tab, senza shift-tab e senza il browser dell'overlay di Steam.
 
 ### Funzioni
 - 🍳 **Cosa posso cucinare** - scegli gli ingredienti che hai (griglia alfabetica con icone) e vedi cosa puoi cucinare subito, cosa ti manca per una ricetta e tutte le altre combinazioni. I gruppi "Any …" sono gestiti da soli.
