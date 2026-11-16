@@ -269,7 +269,7 @@ function untranslated(){
   }
   return seen;
 }
-const missingNames=()=>D.items.filter(n=>!rev[n]).sort((a,b)=>a.localeCompare(b));
+const missingNames=()=>D.items.concat(D.groups||[]).filter(n=>!itName(n)).sort((a,b)=>a.localeCompare(b));
 function updateTrBtn(){
   const n=untranslated().size+missingNames().length, b=$('trb');
   b.hidden=!(lang==='it'&&n>0); b.textContent=t('trBtn',{n});

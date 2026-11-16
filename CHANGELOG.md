@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 (planned)
+- Many more generic "Any ..." group names translated to Italian, and groups can be translated by hand from the Translations panel
+- Italian names and effect translations can now ship with the app; the user's own edits always take priority
+
 ## 1.0.0
 First public release.
 - Always-on-top overlay window with global hotkey (default Ctrl+Alt+R), adjustable opacity, remembered position and size

@@ -71,9 +71,19 @@ function startServer(opts) {
     const d = readJson(files.data, null) || readJson(files.bundled, null);
     return d || { recipes: [], cats: {}, items: [], ingredients: [], groups: [], gm: {}, icons: {}, iconUrls: {}, info: {}, fetched: [], empty: true };
   }
+  // Names shipped with the app are merged with the user's own file. The user's choices always win:
+  // a bundled name is added only if the user has no name at all for that item.
   function loadAliases() {
-    if (!fs.existsSync(files.aliases)) writeJson(files.aliases, DEFAULTS.aliases, true);
-    return readJson(files.aliases, {});
+    const user = readJson(files.aliases, {});
+    const taken = new Set(Object.values(user));
+    const merged = Object.assign({}, user);
+    for (const [it, en] of Object.entries(DEFAULTS.aliases || {})) {
+      if (!taken.has(en) && !(it in merged)) merged[it] = en;
+    }
+    return merged;
+  }
+  function loadTexts() {
+    return Object.assign({}, DEFAULTS.texts || {}, readJson(files.texts, {}));
   }
   function loadGlossary() {
     if (!fs.existsSync(files.glossary)) writeJson(files.glossary, DEFAULTS.glossary, true);
@@ -203,7 +213,7 @@ function startServer(opts) {
         if (p === '/') return send(res, fs.readFileSync(files.page), 'text/html; charset=utf-8');
         if (p === '/api/data') {
           const d = loadData();
-          return send(res, Object.assign({}, d, { aliases: loadAliases(), texts: readJson(files.texts, {}), glossary: loadGlossary() }));
+          return send(res, Object.assign({}, d, { aliases: loadAliases(), texts: loadTexts(), glossary: loadGlossary() }));
         }
         if (p === '/api/status') return send(res, STATUS);
         if (p.startsWith('/icons/')) {
@@ -229,7 +239,8 @@ function startServer(opts) {
         if (p === '/api/alias') {
           const it = String(body.it || '').trim(), en = String(body.en || '').trim();
           if (en) {
-            let a = loadAliases();
+            // only the user's own file is edited here; bundled names stay in the app
+            let a = readJson(files.aliases, {});
             if (body.replace) a = Object.fromEntries(Object.entries(a).filter(([, v]) => v !== en));
             if (it) a[it] = en;
             writeJson(files.aliases, sortedObj(a), true);
